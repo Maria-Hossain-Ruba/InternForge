@@ -1,0 +1,105 @@
+﻿@model InternForge.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Sign in to InternForge";
+}
+
+<div class="if-auth-page">
+    <div class="if-auth-card">
+        <div class="if-auth-card-header">
+            <div class="if-auth-logo-wrap">
+                <div class="if-navbar-logo">
+                    <img src="~/images/internforge-logo.svg" alt="InternForge logo" class="if-logo-img" />
+                </div>
+                <div class="if-auth-logo-text">
+                    <span class="if-auth-logo-title">InternForge</span>
+                    <span class="if-auth-logo-subtitle">Welcome back</span>
+                </div>
+            </div>
+
+            <h1 class="if-auth-title">Sign in</h1>
+            <p class="if-auth-subtitle">
+                Choose your role and continue to your
+                <span>Student</span> or <span>SME</span> workspace.
+            </p>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="if-auth-validation" style="margin-bottom:0.5rem;"></div>
+
+        <form asp-action="Login" asp-controller="Account" method="post" class="if-auth-form">
+            @Html.AntiForgeryToken()
+
+            <!-- Role toggle -->
+            <div class="if-auth-role-toggle">
+                <button type="button"
+                        class="if-auth-role-pill if-auth-role-pill-active"
+                        data-role="Student">
+                    🎓 Student
+                </button>
+                <button type="button"
+                        class="if-auth-role-pill"
+                        data-role="SME">
+                    🏢 SME
+                </button>
+                <input type="hidden" asp-for="Role" id="if-auth-role-input" />
+            </div>
+
+            <!-- Email -->
+            <div class="if-auth-field-group">
+                <label asp-for="Email" class="if-auth-label"></label>
+                <input asp-for="Email" class="if-auth-input" />
+                <span asp-validation-for="Email" class="if-auth-validation"></span>
+            </div>
+
+            <!-- Password -->
+            <div class="if-auth-field-group">
+                <label asp-for="Password" class="if-auth-label"></label>
+                <input asp-for="Password" class="if-auth-input" />
+                <span asp-validation-for="Password" class="if-auth-validation"></span>
+            </div>
+
+            <button type="submit" class="if-button-primary if-auth-submit-btn">
+                Sign in
+            </button>
+
+            <p class="if-auth-footer-note">
+                Don’t have an account yet?
+                <a asp-controller="Account" asp-action="Register" class="if-link-inline">
+                    Create one now
+                </a>
+            </p>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Role toggle: Student / SME
+        const loginRolePills = document.querySelectorAll(".if-auth-role-pill");
+        const loginRoleHiddenInput = document.getElementById("if-auth-role-input");
+
+        function setLoginRole(role) {
+            if (!loginRoleHiddenInput) return;
+            loginRoleHiddenInput.value = role;
+
+            loginRolePills.forEach(pill => pill.classList.remove("if-auth-role-pill-active"));
+            loginRolePills.forEach(pill => {
+                if (pill.getAttribute("data-role") === role) {
+                    pill.classList.add("if-auth-role-pill-active");
+                }
+            });
+        }
+
+        loginRolePills.forEach(pill => {
+            pill.addEventListener("click", () => {
+                const role = pill.getAttribute("data-role");
+                setLoginRole(role);
+            });
+        });
+
+        // Initialize from model (Student by default)
+        setLoginRole("@Model.Role");
+    </script>
+}

@@ -4,8 +4,8 @@ namespace InternForge.Models
 {
     public class Certificate
     {
-        public int CertificateID { get; set; }
-        public int ProjectID { get; set; }
+        public int Id { get; set; }
+        public int ProjectId { get; set; }
         public string StudentName { get; set; }
         public string StudentEmail { get; set; }
         public string CertificateNumber { get; set; }

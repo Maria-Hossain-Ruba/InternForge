@@ -1,0 +1,151 @@
+﻿@model InternForge.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Create your InternForge account";
+}
+
+<div class="if-auth-page">
+    <div class="if-auth-card">
+        <div class="if-auth-card-header">
+            <div class="if-auth-logo-wrap">
+                <div class="if-navbar-logo">
+                    <img src="~/images/internforge-logo.svg" alt="InternForge logo" class="if-logo-img" />
+                </div>
+                <div class="if-auth-logo-text">
+                    <span class="if-auth-logo-title">InternForge</span>
+                    <span class="if-auth-logo-subtitle">Internships as real-world projects</span>
+                </div>
+            </div>
+
+            <h1 class="if-auth-title">Create your account</h1>
+            <p class="if-auth-subtitle">
+                One account for <span>students</span> and <span>SMEs</span>.
+            </p>
+        </div>
+
+        @* Show validation summary if needed *@
+        <div asp-validation-summary="ModelOnly" class="if-auth-validation" style="margin-bottom:0.5rem;"></div>
+
+        <form asp-action="Register" asp-controller="Account" method="post" class="if-auth-form">
+            @Html.AntiForgeryToken()
+
+            <!-- Role toggle -->
+            <div class="if-auth-role-toggle">
+                <button type="button"
+                        class="if-auth-role-pill if-auth-role-pill-active"
+                        data-role="Student">
+                    🎓 I’m a student
+                </button>
+                <button type="button"
+                        class="if-auth-role-pill"
+                        data-role="SME">
+                    🏢 I’m an SME
+                </button>
+                <input type="hidden" asp-for="Role" id="if-auth-role-input" />
+            </div>
+
+            <!-- Name -->
+            <div class="if-auth-field-group">
+                <label asp-for="FullName" class="if-auth-label"></label>
+                <input asp-for="FullName" class="if-auth-input" />
+                <span asp-validation-for="FullName" class="if-auth-validation"></span>
+            </div>
+
+            <!-- Email -->
+            <div class="if-auth-field-group">
+                <label asp-for="Email" class="if-auth-label"></label>
+                <input asp-for="Email" class="if-auth-input" />
+                <span asp-validation-for="Email" class="if-auth-validation"></span>
+            </div>
+
+            <!-- Phone (optional) -->
+            <div class="if-auth-field-group">
+                <label asp-for="Phone" class="if-auth-label"></label>
+                <input asp-for="Phone" class="if-auth-input" />
+                <span asp-validation-for="Phone" class="if-auth-validation"></span>
+            </div>
+
+            <!-- Password row -->
+            <div class="if-auth-field-row">
+                <div class="if-auth-field-group">
+                    <label asp-for="Password" class="if-auth-label"></label>
+                    <input asp-for="Password" class="if-auth-input" />
+                    <span asp-validation-for="Password" class="if-auth-validation"></span>
+                </div>
+                <div class="if-auth-field-group">
+                    <label asp-for="ConfirmPassword" class="if-auth-label"></label>
+                    <input asp-for="ConfirmPassword" class="if-auth-input" />
+                    <span asp-validation-for="ConfirmPassword" class="if-auth-validation"></span>
+                </div>
+            </div>
+
+            <!-- SME-only field: org name -->
+            <div class="if-auth-section" id="if-auth-org-section" style="display:none;">
+                <div class="if-auth-section-header">
+                    <span class="if-auth-section-title">Organization details (optional)</span>
+                    <span class="if-auth-section-subtitle">
+                        Shown on your SME profile for students.
+                    </span>
+                </div>
+
+                <div class="if-auth-field-group">
+                    <label asp-for="OrgName" class="if-auth-label"></label>
+                    <input asp-for="OrgName" class="if-auth-input" />
+                    <span asp-validation-for="OrgName" class="if-auth-validation"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="if-button-primary if-auth-submit-btn">
+                Create account
+            </button>
+
+            <p class="if-auth-footer-note">
+                Already have an account?
+                <a asp-controller="Account" asp-action="Login" class="if-link-inline">
+                    Sign in
+                </a>
+
+            </p>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Role toggle: Student / SME
+        const rolePills = document.querySelectorAll(".if-auth-role-pill");
+        const roleHiddenInput = document.getElementById("if-auth-role-input");
+        const orgSection = document.getElementById("if-auth-org-section");
+
+        function setRole(role) {
+            if (!roleHiddenInput) return;
+            roleHiddenInput.value = role;
+
+            rolePills.forEach(pill => pill.classList.remove("if-auth-role-pill-active"));
+            rolePills.forEach(pill => {
+                if (pill.getAttribute("data-role") === role) {
+                    pill.classList.add("if-auth-role-pill-active");
+                }
+            });
+
+            // Show org name only for SME
+            if (role === "SME") {
+                orgSection.style.display = "flex";
+            } else {
+                orgSection.style.display = "none";
+            }
+        }
+
+        rolePills.forEach(pill => {
+            pill.addEventListener("click", () => {
+                const role = pill.getAttribute("data-role");
+                setRole(role);
+            });
+        });
+
+        // Initialize from model (Student by default)
+        setRole("@Model.Role");
+    </script>
+}
