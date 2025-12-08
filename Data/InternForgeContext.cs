@@ -1,15 +1,15 @@
 ﻿using InternForge.Models;
+using InternForge.Models.Auth;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace InternForge.Data
 {
-    public class InternForgeContext : DbContext
+    public class InternForgeContext: IdentityDbContext<IdentityModel.User, IdentityModel.Role, long, IdentityModel.UserClaim, IdentityModel.UserRole, IdentityModel.UserLogin, IdentityModel.RoleClaim, IdentityModel.UserToken>
     {
-        public InternForgeContext(DbContextOptions<InternForgeContext> options)
-            : base(options)
+        public InternForgeContext(DbContextOptions<InternForgeContext> options) : base(options)
         {
+           
         }
 
         public DbSet<Project> Projects { get; set; }
