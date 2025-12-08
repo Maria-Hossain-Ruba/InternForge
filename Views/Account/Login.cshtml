@@ -28,22 +28,6 @@
 
         <form asp-action="Login" asp-controller="Account" method="post" class="if-auth-form">
             @Html.AntiForgeryToken()
-
-            <!-- Role toggle -->
-            <div class="if-auth-role-toggle">
-                <button type="button"
-                        class="if-auth-role-pill if-auth-role-pill-active"
-                        data-role="Student">
-                    🎓 Student
-                </button>
-                <button type="button"
-                        class="if-auth-role-pill"
-                        data-role="SME">
-                    🏢 SME
-                </button>
-                <input type="hidden" asp-for="Role" id="if-auth-role-input" />
-            </div>
-
             <!-- Email -->
             <div class="if-auth-field-group">
                 <label asp-for="Email" class="if-auth-label"></label>
@@ -74,32 +58,4 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
-    <script>
-        // Role toggle: Student / SME
-        const loginRolePills = document.querySelectorAll(".if-auth-role-pill");
-        const loginRoleHiddenInput = document.getElementById("if-auth-role-input");
-
-        function setLoginRole(role) {
-            if (!loginRoleHiddenInput) return;
-            loginRoleHiddenInput.value = role;
-
-            loginRolePills.forEach(pill => pill.classList.remove("if-auth-role-pill-active"));
-            loginRolePills.forEach(pill => {
-                if (pill.getAttribute("data-role") === role) {
-                    pill.classList.add("if-auth-role-pill-active");
-                }
-            });
-        }
-
-        loginRolePills.forEach(pill => {
-            pill.addEventListener("click", () => {
-                const role = pill.getAttribute("data-role");
-                setLoginRole(role);
-            });
-        });
-
-        // Initialize from model (Student by default)
-        setLoginRole("@Model.Role");
-    </script>
 }

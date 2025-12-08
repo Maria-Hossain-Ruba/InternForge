@@ -5,10 +5,6 @@ namespace InternForge.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Account type")]
-        public string Role { get; set; } = "Student"; // "Student" or "SME"
-
-        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;

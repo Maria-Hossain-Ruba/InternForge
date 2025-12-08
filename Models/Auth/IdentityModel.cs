@@ -10,6 +10,8 @@ public class IdentityModel
     public class User : IdentityUser<long>
     {
         public string Name { get; set; } = string.Empty;
+    
+        public string OrgName { get; set; } = string.Empty;
         public long CreatedBy { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public long? UpdatedBy { get; set; }

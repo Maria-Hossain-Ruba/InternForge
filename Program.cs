@@ -1,4 +1,5 @@
 ﻿using InternForge.Data;
+using InternForge.Repositories.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -11,14 +12,14 @@ builder.Services.AddDbContext<InternForgeContext>((sp, options) =>
 {
     var config = sp.GetRequiredService<IConfiguration>();
 
-    options.UseSqlServer(config.GetConnectionString("DefaultConnection"))
+    options.UseSqlServer(config.GetConnectionString("InternForgeConnection"))
            .ConfigureWarnings(warnings =>
                warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
     var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
     options.UseLoggerFactory(loggerFactory);
     options.LogTo(Console.WriteLine, LogLevel.Information);
 });
-
+builder.Services.AddScoped<IAuthService, AuthService>();
 // Identity
 builder.Services.AddIdentity<User, Role>(options =>
 {
