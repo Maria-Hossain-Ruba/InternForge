@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InternForge.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateallTable : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // ✅ Identity tables only (DO NOT create Projects / Applications / Certificates / PortfolioEntries)
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -64,26 +66,6 @@ namespace InternForge.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Projects",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RequiredSkills = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SMEName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Slg = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Projects", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,86 +181,14 @@ namespace InternForge.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Applications",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProjectId = table.Column<int>(type: "int", nullable: false),
-                    StudentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StudentEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CoverLetter = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppliedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Applications", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Applications_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Certificates",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProjectId = table.Column<int>(type: "int", nullable: false),
-                    StudentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StudentEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CertificateNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IssuedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Certificates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Certificates_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PortfolioEntries",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProjectId = table.Column<int>(type: "int", nullable: false),
-                    StudentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StudentEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SkillsGained = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PortfolioEntries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PortfolioEntries_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
+            // ✅ Seed roles/users (your original data)
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "CreatedBy", "CreatedDateUtc", "Description", "Name", "NormalizedName", "StatusId", "UpdatedBy", "UpdatedDateUtc" },
                 values: new object[,]
                 {
-                    { 1L, "b1b98e39-7a51-4aec-b430-e529206e4172", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Default role assigned to all employees.", "SME", "SME", 0, null, null },
-                    { 2L, "210a8026-14dd-466a-ba30-e0b15080a599", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Default role assigned to all employees.", "User", "User", 0, null, null }
+                    { 1L, "4550e925-d712-4371-bbcd-c96fad310e70", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Default role assigned to all employees.", "SME", "SME", 0, null, null },
+                    { 2L, "7937584d-59ca-42f4-be00-f4af572f45f7", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Default role assigned to all employees.", "User", "User", 0, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -286,8 +196,8 @@ namespace InternForge.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedBy", "CreatedDate", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "OrgName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedBy", "UpdatedDate", "UserName" },
                 values: new object[,]
                 {
-                    { 1L, 0, "f92f2ee1-c576-49c7-b984-d3f60cdb9dd3", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "admin@localhost.com", true, false, null, "", "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "", "AQAAAAIAAYagAAAAELZM3BIUYB1zoTu4bxF9AGJSsfDlkfCME9Ps1dH8K9KAe8QHlL1vSYFbpm7LiNZoKA==", null, false, "89fc14fe-b87e-49b1-8561-1ae110456a6c", false, null, null, "admin@localhost.com" },
-                    { 2L, 0, "7cbd4fa5-d85b-4387-99d8-462ee7405564", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "employee@localhost.com", true, false, null, "", "EMPLOYEE@LOCALHOST.COM", "EMPLOYEE@LOCALHOST.COM", "", "AQAAAAIAAYagAAAAEOnXzKoig9pY99KNp939PwLzMvuMH0nAx6TupxDsEuJ0uT7rU6/1GwvXDRGDc/2D2w==", null, false, "69381eac-baa0-4b30-bcec-4b3920a2333a", false, null, null, "employee@localhost.com" }
+                    { 1L, 0, "6ffe65d2-dc2d-406e-aa3f-4fc126e076bd", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "admin@localhost.com", true, false, null, "", "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "", "AQAAAAIAAYagAAAAEIkiXXJj096MsxjzWq1FGP+UyX/UR+RxUAyU7Euw5C8BdZ2gxOkS57Xrx3GrnOXwRw==", null, false, "30e305ac-30e4-4f36-94e0-c363ec01c310", false, null, null, "admin@localhost.com" },
+                    { 2L, 0, "e4c85337-2b5f-4c9f-bbec-12e3590d12e2", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "employee@localhost.com", true, false, null, "", "EMPLOYEE@LOCALHOST.COM", "EMPLOYEE@LOCALHOST.COM", "", "AQAAAAIAAYagAAAAEJxb/EVzbZPXGZaEe3/s4x3qWJQSx690S0voDAzMRqtbiM6ndfS8aEZWCKuRalVMIA==", null, false, "5ba12414-e7b6-460a-bdda-602d56f14b6f", false, null, null, "employee@localhost.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -299,11 +209,7 @@ namespace InternForge.Migrations
                     { 2L, 2L }
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Applications_ProjectId",
-                table: "Applications",
-                column: "ProjectId");
-
+            // ✅ Identity indexes only
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -347,53 +253,18 @@ namespace InternForge.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Certificates_ProjectId",
-                table: "Certificates",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PortfolioEntries_ProjectId",
-                table: "PortfolioEntries",
-                column: "ProjectId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Applications");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "Certificates");
-
-            migrationBuilder.DropTable(
-                name: "PortfolioEntries");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Projects");
+            migrationBuilder.DropTable(name: "AspNetRoleClaims");
+            migrationBuilder.DropTable(name: "AspNetUserClaims");
+            migrationBuilder.DropTable(name: "AspNetUserLogins");
+            migrationBuilder.DropTable(name: "AspNetUserRoles");
+            migrationBuilder.DropTable(name: "AspNetUserTokens");
+            migrationBuilder.DropTable(name: "AspNetRoles");
+            migrationBuilder.DropTable(name: "AspNetUsers");
         }
     }
 }

@@ -1,0 +1,37 @@
+﻿@model List<InternForge.Models.Project>
+@{
+    ViewData["Title"] = "My Projects";
+    Layout = "_LayoutAdmin"; // keep your sidebar layout
+}
+
+<h2>My Projects</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Org</th>
+            <th>Status</th>
+            <th>Deadline</th>
+            <th>Applications</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Title</td>
+                <td>@p.OrgName</td>
+                <td>@p.Status</td>
+                <td>@(p.Deadline?.ToString("yyyy-MM-dd") ?? "-")</td>
+                <td>
+                    <a asp-controller="Sme"
+                       asp-action="ProjectApplications"
+                       asp-route-id="@p.ProjectID">
+                        View Applications
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

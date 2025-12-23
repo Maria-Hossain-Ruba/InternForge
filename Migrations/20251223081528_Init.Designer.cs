@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InternForge.Migrations
 {
     [DbContext(typeof(InternForgeContext))]
-    [Migration("20251208065511_CreateallTable")]
-    partial class CreateallTable
+    [Migration("20251223081528_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,41 +27,34 @@ namespace InternForge.Migrations
 
             modelBuilder.Entity("InternForge.Models.Application", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ApplicationID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApplicationID"));
+
+                    b.Property<string>("ApplicantEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApplicantName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("AppliedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CoverLetter")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("ProjectID")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StudentEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StudentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
+                    b.HasKey("ApplicationID");
 
                     b.ToTable("Applications", (string)null);
                 });
@@ -118,7 +111,7 @@ namespace InternForge.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "b1b98e39-7a51-4aec-b430-e529206e4172",
+                            ConcurrencyStamp = "4550e925-d712-4371-bbcd-c96fad310e70",
                             CreatedBy = 0L,
                             CreatedDateUtc = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Default role assigned to all employees.",
@@ -129,7 +122,7 @@ namespace InternForge.Migrations
                         new
                         {
                             Id = 2L,
-                            ConcurrencyStamp = "210a8026-14dd-466a-ba30-e0b15080a599",
+                            ConcurrencyStamp = "7937584d-59ca-42f4-be00-f4af572f45f7",
                             CreatedBy = 0L,
                             CreatedDateUtc = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Default role assigned to all employees.",
@@ -255,7 +248,7 @@ namespace InternForge.Migrations
                         {
                             Id = 1L,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f92f2ee1-c576-49c7-b984-d3f60cdb9dd3",
+                            ConcurrencyStamp = "6ffe65d2-dc2d-406e-aa3f-4fc126e076bd",
                             CreatedBy = 0L,
                             CreatedDate = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "admin@localhost.com",
@@ -265,9 +258,9 @@ namespace InternForge.Migrations
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
                             OrgName = "",
-                            PasswordHash = "AQAAAAIAAYagAAAAELZM3BIUYB1zoTu4bxF9AGJSsfDlkfCME9Ps1dH8K9KAe8QHlL1vSYFbpm7LiNZoKA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIkiXXJj096MsxjzWq1FGP+UyX/UR+RxUAyU7Euw5C8BdZ2gxOkS57Xrx3GrnOXwRw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "89fc14fe-b87e-49b1-8561-1ae110456a6c",
+                            SecurityStamp = "30e305ac-30e4-4f36-94e0-c363ec01c310",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -275,7 +268,7 @@ namespace InternForge.Migrations
                         {
                             Id = 2L,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7cbd4fa5-d85b-4387-99d8-462ee7405564",
+                            ConcurrencyStamp = "e4c85337-2b5f-4c9f-bbec-12e3590d12e2",
                             CreatedBy = 0L,
                             CreatedDate = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "employee@localhost.com",
@@ -285,9 +278,9 @@ namespace InternForge.Migrations
                             NormalizedEmail = "EMPLOYEE@LOCALHOST.COM",
                             NormalizedUserName = "EMPLOYEE@LOCALHOST.COM",
                             OrgName = "",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOnXzKoig9pY99KNp939PwLzMvuMH0nAx6TupxDsEuJ0uT7rU6/1GwvXDRGDc/2D2w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJxb/EVzbZPXGZaEe3/s4x3qWJQSx690S0voDAzMRqtbiM6ndfS8aEZWCKuRalVMIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "69381eac-baa0-4b30-bcec-4b3920a2333a",
+                            SecurityStamp = "5ba12414-e7b6-460a-bdda-602d56f14b6f",
                             TwoFactorEnabled = false,
                             UserName = "employee@localhost.com"
                         });
@@ -471,7 +464,8 @@ namespace InternForge.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("ProjectID");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -485,15 +479,10 @@ namespace InternForge.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OrgName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RequiredSkills")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SMEName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Slg")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -508,17 +497,6 @@ namespace InternForge.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects", (string)null);
-                });
-
-            modelBuilder.Entity("InternForge.Models.Application", b =>
-                {
-                    b.HasOne("InternForge.Models.Project", "Project")
-                        .WithMany("Applications")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("InternForge.Models.Auth.IdentityModel+RoleClaim", b =>
@@ -583,7 +561,7 @@ namespace InternForge.Migrations
             modelBuilder.Entity("InternForge.Models.Certificate", b =>
                 {
                     b.HasOne("InternForge.Models.Project", "Project")
-                        .WithMany("Certificates")
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -594,21 +572,12 @@ namespace InternForge.Migrations
             modelBuilder.Entity("InternForge.Models.PortfolioEntry", b =>
                 {
                     b.HasOne("InternForge.Models.Project", "Project")
-                        .WithMany("PortfolioEntries")
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("InternForge.Models.Project", b =>
-                {
-                    b.Navigation("Applications");
-
-                    b.Navigation("Certificates");
-
-                    b.Navigation("PortfolioEntries");
                 });
 #pragma warning restore 612, 618
         }

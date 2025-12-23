@@ -1,0 +1,39 @@
+﻿@model InternForge.Models.Application
+@{
+    Layout = "_LayoutAdmin";
+    var project = ViewBag.Project as InternForge.Models.Project;
+    ViewData["Title"] = "Apply";
+}
+
+<h2>Apply</h2>
+
+@if (project != null)
+{
+    <p><b>Project:</b> @project.Title</p>
+}
+
+<form asp-action="Apply" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="ProjectID" />
+
+    <div>
+        <label>Name</label><br />
+        <input asp-for="ApplicantName" />
+    </div>
+
+    <div style="margin-top:10px;">
+        <label>Email</label><br />
+        <input asp-for="ApplicantEmail" />
+    </div>
+
+    <div style="margin-top:10px;">
+        <label>Cover Letter (optional)</label><br />
+        <textarea asp-for="CoverLetter" rows="5" cols="50"></textarea>
+    </div>
+
+    <div style="margin-top:14px;">
+        <button type="submit">Submit Application</button>
+        <a asp-action="Index">Cancel</a>
+    </div>
+</form>

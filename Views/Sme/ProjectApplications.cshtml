@@ -1,0 +1,64 @@
+﻿@model List<InternForge.Models.Application>
+@{
+    ViewData["Title"] = "Project Applications";
+    Layout = "_LayoutAdmin";
+    var project = ViewBag.Project as InternForge.Models.Project;
+}
+
+<h2>Applications - @project?.Title</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Email</th>
+            <th>Applied At</th>
+            <th>Status</th>
+            <th>Cover Letter</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.ApplicantName</td>
+                <td>@a.ApplicantEmail</td>
+                <td>@(a.AppliedAt?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                <td>@(a.Status ?? "Pending")</td>
+                <td style="max-width: 420px; white-space: pre-wrap;">@a.CoverLetter</td>
+                <td>
+                    <form asp-controller="Sme" asp-action="AcceptApplication" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="applicationId" value="@a.ApplicationID" />
+                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                    </form>
+
+                    <form asp-controller="Sme" asp-action="RejectApplication" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="applicationId" value="@a.ApplicationID" />
+                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+
+                    <form asp-controller="Sme" asp-action="IssueCertificate" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="applicationId" value="@a.ApplicationID" />
+                        <button type="submit" class="btn btn-primary btn-sm">Issue Cert</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Sme" asp-action="MyProjects">← Back to My Projects</a>

@@ -1,18 +1,19 @@
-﻿using System;
+﻿namespace InternForge.Models;
 
-namespace InternForge.Models
+public class Application
 {
-    public class Application
-    {
-        public int Id { get; set; }
-        public int ProjectId { get; set; }
-        public string StudentName { get; set; }
-        public string StudentEmail { get; set; }
-        public string CoverLetter { get; set; }
-        public string FileName { get; set; }
-        public string Status { get; set; }
-        public DateTime AppliedAt { get; set; }
+    public int ApplicationID { get; set; }
 
-        public Project Project { get; set; }
-    }
+    public int ProjectID { get; set; }
+
+    public string ApplicantName { get; set; } = "";
+
+    public string ApplicantEmail { get; set; } = "";
+
+    public string? CoverLetter { get; set; }   // nullable is OK
+
+    public string Status { get; set; } = "Pending";
+
+    public DateTime? AppliedAt { get; set; }
+
 }

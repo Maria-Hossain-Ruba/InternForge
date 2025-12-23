@@ -1,0 +1,47 @@
+﻿@model List<InternForge.Models.Project>
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Projects";
+}
+
+<h2>Projects</h2>
+<p>Browse available projects.</p>
+
+@if (Model == null || Model.Count == 0)
+{
+    <p><b>No projects found.</b></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Skills</th>
+                <th>Status</th>
+                <th>Deadline</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td><b>@p.Title</b></td>
+                    <td>@p.RequiredSkills</td>
+                    <td>@p.Status</td>
+                    <td>@(p.Deadline?.ToString("dd-MMM-yyyy") ?? "N/A")</td>
+                    <td>
+                        <a asp-controller="Projects"
+                           asp-action="Apply"
+                           asp-route-id="@p.ProjectID">
+                            Apply
+                        </a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

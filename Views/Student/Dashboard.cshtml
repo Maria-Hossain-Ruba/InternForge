@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Student Dashboard";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="page-wrap">
+    <div class="saas-header">
+        <div>
+            <h1 class="saas-title">Student Dashboard</h1>
+            <p class="saas-subtitle">Browse projects, apply, and track your application status.</p>
+        </div>
+
+        <a class="saas-btn saas-btn-primary" asp-controller="Projects" asp-action="Index">
+            Explore Projects
+        </a>
+    </div>
+
+    <div class="saas-grid">
+        <div class="col-6 saas-card">
+            <div class="saas-card-header">
+                <b>Applications</b>
+            </div>
+            <div class="saas-card-body">
+                <p class="saas-subtitle">View your pending / accepted / rejected applications.</p>
+                <a class="saas-btn" asp-controller="Student" asp-action="MyApplications">My Applications</a>
+            </div>
+        </div>
+
+        <div class="col-6 saas-card">
+            <div class="saas-card-header">
+                <b>Portfolio</b>
+            </div>
+            <div class="saas-card-body">
+                <p class="saas-subtitle">Completed projects and certificates will appear here.</p>
+                <span class="badge warning">Coming soon</span>
+            </div>
+        </div>
+    </div>
+</div>
